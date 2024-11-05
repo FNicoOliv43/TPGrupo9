@@ -1,29 +1,27 @@
-package Models;
+package ar.edu.utn.frc.TPGrupo9.Models;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Entity
 @Table (name = "Posiciones")
+@Data
 public class Posicion {
-    @Getter
-    @Setter
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JoinColumn(name = "ID")
     private int id;
-    @Getter
-    @Setter
+
     @JoinColumn(name = "FECHA_HORA")
     private String fecha_hora;
-    @Getter
-    @Setter
+
     @JoinColumn(name = "LATITUD")
     private int latitud;
-    @Getter
-    @Setter
+
     @JoinColumn(name = "LONGITUD")
     private int longitud;
 }

@@ -1,6 +1,6 @@
-package Controllers;
+package ar.edu.utn.frc.TPGrupo9.Controllers;
 
-import Models.Vehiculo;
+import ar.edu.utn.frc.TPGrupo9.Models.Vehiculo;
 import Services.VehiculoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
