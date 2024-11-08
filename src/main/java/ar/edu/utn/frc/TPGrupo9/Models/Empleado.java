@@ -29,6 +29,6 @@ public class Empleado {
     private int telefono_contacto;
 
 
-    @OneToMany (mappedBy = "id_empleado", fetch = FetchType.EAGER)
+    @OneToMany (mappedBy = "empleado", fetch = FetchType.EAGER)
     private Set<Prueba> pruebas;
 }

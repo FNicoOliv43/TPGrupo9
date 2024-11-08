@@ -1,6 +1,7 @@
-package Services;
+package ar.edu.utn.frc.TPGrupo9.Services;
 
-import Models.Vehiculo;
+
+import ar.edu.utn.frc.TPGrupo9.Models.Vehiculo;
 import jakarta.persistence.Persistence;
 import org.springframework.stereotype.Service;
 

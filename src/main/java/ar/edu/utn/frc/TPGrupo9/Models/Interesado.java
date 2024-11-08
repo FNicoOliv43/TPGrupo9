@@ -39,6 +39,6 @@ public class Interesado {
     @JoinColumn(name = "FECHA_VENCIMIENTO")
     private String fecha_vencimiento_licencia;
 
-    @OneToMany (mappedBy = "id_interesado", fetch = FetchType.EAGER)
+    @OneToMany (mappedBy = "interesado", fetch = FetchType.EAGER)
     private Set<Prueba> pruebas;
 }

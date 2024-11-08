@@ -23,7 +23,7 @@ public class Prueba {
     private Vehiculo vehiculo;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "ID_INTERESADO")
+    @JoinColumn(name = "id_interesado")
     @JsonIgnore
     private Interesado interesado;
 
