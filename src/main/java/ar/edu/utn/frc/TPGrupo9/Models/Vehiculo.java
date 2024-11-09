@@ -5,12 +5,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Set;
 
 
 @Entity
-@Table (name = "Vehiculos")
+@Table(name = "Vehiculos")
 @Data
 public class Vehiculo {
 
@@ -22,11 +23,25 @@ public class Vehiculo {
     @JoinColumn(name = "PATENTE")
     private String patente;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_MODELO")
-    @JsonIgnore
+    @ToString.Exclude // Evitar bucle en toString
     private Modelo modelo;
 
-    @OneToMany (mappedBy = "vehiculo", fetch = FetchType.EAGER)
-    private Set<Prueba> pruebas;
+    @JoinColumn(name = "ANIO")
+    private int anio;
+
+    // hashCode y equals basados solo en 'id'
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Vehiculo other = (Vehiculo) obj;
+        return id == other.id;
+    }
 }
