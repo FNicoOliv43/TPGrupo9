@@ -2,8 +2,10 @@ package ar.edu.utn.frc.TPGrupo9.Models;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -36,8 +38,9 @@ public class Interesado {
     @Column(name = "NRO_LICENCIA")
     private int nroLicencia;
 
-    //@Temporal(TemporalType.TIMESTAMP)
     //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    //@CreationTimestamp
+    //@Temporal(TemporalType.TIMESTAMP)
     @Column(name = "FECHA_VENCIMIENTO_LICENCIA")
     private String fechaVencimientoLicencia;
 
