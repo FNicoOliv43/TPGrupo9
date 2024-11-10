@@ -2,9 +2,9 @@ package ar.edu.utn.frc.TPGrupo9.Models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 
@@ -15,29 +15,31 @@ public class Interesado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "ID")
+    @Column(name = "ID")
     private int id;
 
-    @JoinColumn(name = "TIPO_DOCUMENTO")
+    @Column(name = "TIPO_DOCUMENTO")
     private String tipo_documento;
 
-    @JoinColumn(name = "DOCUMENTO")
+    @Column(name = "DOCUMENTO")
     private String documento;
 
-    @JoinColumn(name = "NOMBRE")
+    @Column(name = "NOMBRE")
     private String nombre;
 
-    @JoinColumn(name = "APELLIDO")
+    @Column(name = "APELLIDO")
     private String apellido;
 
-    @JoinColumn(name = "RESTRINGIDO")
-    private int restringido;
+    @Column(name = "RESTRINGIDO")
+    private boolean restringido;
 
-    @JoinColumn(name = "NRO_LICENCIA")
-    private int nro_licencia;
+    @Column(name = "NRO_LICENCIA")
+    private int nroLicencia;
 
-    @JoinColumn(name = "FECHA_VENCIMIENTO")
-    private String fecha_vencimiento_licencia;
+    //@Temporal(TemporalType.TIMESTAMP)
+    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "FECHA_VENCIMIENTO_LICENCIA")
+    private String fechaVencimientoLicencia;
 
     @OneToMany (mappedBy = "interesado", fetch = FetchType.EAGER)
     private Set<Prueba> pruebas;

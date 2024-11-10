@@ -2,8 +2,6 @@ package ar.edu.utn.frc.TPGrupo9.Models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Set;
 
@@ -15,10 +13,10 @@ public class Marca {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "ID")
+    @Column(name = "ID")
     private int id;
 
-    @JoinColumn(name = "NOMBRE")
+    @Column(name = "NOMBRE")
     private String nombre;
 
     @OneToMany (mappedBy = "marca", fetch = FetchType.EAGER)

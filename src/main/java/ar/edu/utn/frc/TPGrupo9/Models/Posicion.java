@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -13,15 +16,16 @@ public class Posicion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "ID")
+    @Column(name = "ID")
     private int id;
 
-    @JoinColumn(name = "FECHA_HORA")
-    private String fecha_hora;
+    //@Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "FECHA_HORA")
+    private String fechaHora;
 
-    @JoinColumn(name = "LATITUD")
+    @Column(name = "LATITUD")
     private int latitud;
 
-    @JoinColumn(name = "LONGITUD")
+    @Column(name = "LONGITUD")
     private int longitud;
 }

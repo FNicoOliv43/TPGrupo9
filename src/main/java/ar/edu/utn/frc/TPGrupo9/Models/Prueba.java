@@ -3,6 +3,9 @@ package ar.edu.utn.frc.TPGrupo9.Models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table (name = "Pruebas")
@@ -11,7 +14,7 @@ public class Prueba {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "ID")
+    @Column(name = "ID")
     private int id;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -20,7 +23,7 @@ public class Prueba {
     private Vehiculo vehiculo;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_interesado")
+    @JoinColumn(name = "ID_INTERESADO")
     @JsonIgnore
     private Interesado interesado;
 
@@ -29,13 +32,15 @@ public class Prueba {
     @JsonIgnore
     private Empleado empleado;
 
-    @JoinColumn(name = "FECHA_HORA_INICIO")
-    private String fecha_hora_inicio;
+    //@Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "FECHA_HORA_INICIO")
+    private String fechaHoraInicio;
 
-    @JoinColumn(name = "FECHA_HORA_FIN")
-    private String fecha_hora_fin;
+    //@Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "FECHA_HORA_FIN")
+    private String  fechaHoraFin;
 
-    @JoinColumn(name = "COMENTARIOS")
+    @Column(name = "COMENTARIOS")
     private String comentarios;
 
 

@@ -17,10 +17,10 @@ public class Modelo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "ID")
+    @Column(name = "ID")
     private int id;
 
-    @JoinColumn(name = "DESCRIPCION")
+    @Column(name = "DESCRIPCION")
     private String descripcion;
 
     @OneToMany(mappedBy = "modelo", fetch = FetchType.EAGER)

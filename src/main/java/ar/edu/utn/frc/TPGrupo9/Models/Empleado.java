@@ -15,18 +15,18 @@ public class Empleado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "ID")
+    @Column(name = "LEGAJO")
     private int legajo;
 
-    @JoinColumn(name = "NOMBRE")
+    @Column(name = "NOMBRE")
     private String nombre;
 
-    @JoinColumn(name = "APELLIDO")
+    @Column(name = "APELLIDO")
     private String apellido;
 
 
-    @JoinColumn(name = "TELEFONO_CONTACTO")
-    private int telefono_contacto;
+    @Column(name = "TELEFONO_CONTACTO")
+    private int telefonoContacto;
 
 
     @OneToMany (mappedBy = "empleado", fetch = FetchType.EAGER)

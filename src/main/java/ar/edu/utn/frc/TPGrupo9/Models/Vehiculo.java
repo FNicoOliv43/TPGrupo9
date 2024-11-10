@@ -17,10 +17,10 @@ public class Vehiculo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JoinColumn(name = "ID")
+    @Column(name = "ID")
     private int id;
 
-    @JoinColumn(name = "PATENTE")
+    @Column(name = "PATENTE")
     private String patente;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -28,7 +28,7 @@ public class Vehiculo {
     @ToString.Exclude // Evitar bucle en toString
     private Modelo modelo;
 
-    @JoinColumn(name = "ANIO")
+    @Column(name = "ANIO")
     private int anio;
 
     // hashCode y equals basados solo en 'id'
