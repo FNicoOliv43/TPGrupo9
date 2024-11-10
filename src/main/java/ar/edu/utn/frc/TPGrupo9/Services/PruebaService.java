@@ -19,4 +19,8 @@ public class PruebaService {
     public Iterable<Prueba> getAll(){
             return repository.findAll();
         }
+
+    public Iterable<Prueba> getPruebasEnCurso(){
+        return repository.findPruebasEnCurso();
+    }
 }

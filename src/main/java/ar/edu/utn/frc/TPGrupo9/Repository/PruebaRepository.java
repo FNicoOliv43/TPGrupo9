@@ -12,8 +12,10 @@ import java.util.List;
 @Repository
 public interface PruebaRepository extends JpaRepository<Prueba, Integer> {
 
-   // @Query("SELECT p FROM Prueba p WHERE :fechaHora BETWEEN p.fechaHoraInicio AND p.fechaHoraFin")
-   // List<Prueba> findPruebasEnCurso(@Param("fechaHora") LocalDateTime fechaHora);
     List<Prueba> findAll();
+
+    @Query("SELECT p FROM Prueba p WHERE p.fecha_hora_fin IS NULL")
+    List<Prueba> findPruebasEnCurso();
+
 
 }

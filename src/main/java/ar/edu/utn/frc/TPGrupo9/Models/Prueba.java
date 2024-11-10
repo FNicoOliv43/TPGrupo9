@@ -3,9 +3,6 @@ package ar.edu.utn.frc.TPGrupo9.Models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 
 @Entity
 @Table (name = "Pruebas")

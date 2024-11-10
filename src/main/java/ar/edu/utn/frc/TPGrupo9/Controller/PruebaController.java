@@ -24,7 +24,12 @@ public class PruebaController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Prueba>>  findAllPrueba() {
+    public ResponseEntity<Iterable<Prueba>> findAllPrueba() {
         return ResponseEntity.ok(service.getAll());
+    }
+
+    @GetMapping("/enCurso")
+    public ResponseEntity<Iterable<Prueba>> findPruebasEnCurso() {
+        return ResponseEntity.ok(service.getPruebasEnCurso());
     }
 }
