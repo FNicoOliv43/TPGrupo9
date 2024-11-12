@@ -2,8 +2,6 @@ package ar.edu.utn.frc.TPGrupo9.Models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Set;
 

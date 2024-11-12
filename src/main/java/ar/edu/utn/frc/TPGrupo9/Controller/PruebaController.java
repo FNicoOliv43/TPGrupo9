@@ -4,6 +4,7 @@ import ar.edu.utn.frc.TPGrupo9.DTO.PruebaRequest;
 import ar.edu.utn.frc.TPGrupo9.Models.Prueba;
 import ar.edu.utn.frc.TPGrupo9.Services.PruebaService;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +36,15 @@ public class PruebaController {
     @PostMapping
     public ResponseEntity<Prueba> createPrueba(@RequestBody PruebaRequest request) {
         return ResponseEntity.ok(service.createPrueba(request.getInteresadoId(), request.getVehiculoId()));
+    }
+
+    @PutMapping("/finalizar/{id}")
+    public ResponseEntity<Prueba> updatePersona(@RequestBody PruebaRequest request, @PathVariable int id) {
+        try {
+            Prueba prueba = service.finalizarPrueba(id, request.getComentario());
+            return ResponseEntity.ok(prueba);
+        } catch (ServiceException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }

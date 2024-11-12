@@ -6,12 +6,13 @@ import ar.edu.utn.frc.TPGrupo9.Models.Vehiculo;
 import ar.edu.utn.frc.TPGrupo9.Repository.InteresadoRepository;
 import ar.edu.utn.frc.TPGrupo9.Repository.PruebaRepository;
 import ar.edu.utn.frc.TPGrupo9.Repository.VehiculoRepository;
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PruebaService {
@@ -30,6 +31,11 @@ public class PruebaService {
     public Iterable<Prueba> getAll(){
             return repository.findAll();
         }
+
+    public Prueba getById(int id) throws ServiceException {
+        return repository.findById(id).orElseThrow(()->
+                new ServiceException("Prueba no encontrada"));
+    }
 
     public Iterable<Prueba> getPruebasEnCurso(){
         return repository.findPruebasEnCurso();
@@ -52,12 +58,28 @@ public class PruebaService {
         Prueba prueba = new Prueba();
         prueba.setInteresado(interesado);
         prueba.setVehiculo(vehiculo);
-        //prueba.setEmpleado(empleado);
-        LocalDateTime fechaHoraInicio = LocalDateTime.now();
+        //prueba.setEmpleado(empleado); //Controlar como implementar empleado
+
+        //guarda la fechaHora como String
+        LocalDateTime fechaHora = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String fechaHoraString = fechaHoraInicio.format(formatter);
+        String fechaHoraString = fechaHora.format(formatter);
         prueba.setFechaHoraInicio(fechaHoraString);
 
+        return repository.save(prueba);
+    }
+
+    public Prueba finalizarPrueba(int id, String comentario) throws ServiceException{
+        Prueba prueba = repository.findPruebaEnCursoById(id)
+                .orElseThrow(() -> new ServiceException("Prueba no encontrada o ya finalizada"));
+
+        //guarda la fechaHora como String
+        LocalDateTime fechaHora = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String fechaHoraString = fechaHora.format(formatter);
+        prueba.setFechaHoraFin(fechaHoraString);
+
+        prueba.setComentarios(comentario);
         return repository.save(prueba);
     }
 }

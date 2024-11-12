@@ -1,28 +1,19 @@
 package ar.edu.utn.frc.TPGrupo9.Services;
 
-
 import ar.edu.utn.frc.TPGrupo9.Models.Vehiculo;
-import jakarta.persistence.Persistence;
+import ar.edu.utn.frc.TPGrupo9.Repository.VehiculoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 public class VehiculoService {
+    private final VehiculoRepository repository;
 
-    public List<Vehiculo> getAll(){
-        try(var emf = Persistence.createEntityManagerFactory("persistence");
-            var em = emf.createEntityManager();){
-            em.getTransaction().begin();
-            var vehiculos = em.createQuery("select v from Vehiculo v", Vehiculo.class).getResultList();
-            em.getTransaction().commit();
+    @Autowired
+    public VehiculoService(VehiculoRepository repository) { this.repository = repository; }
 
-            return vehiculos;
-
-        }catch (Exception e){
-            e.printStackTrace();
-            throw e;
-        }
-
+    public Iterable<Vehiculo> getAll(){
+        return repository.findAll();
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PruebaRepository extends JpaRepository<Prueba, Integer> {
@@ -17,7 +18,8 @@ public interface PruebaRepository extends JpaRepository<Prueba, Integer> {
     @Query("SELECT p FROM Prueba p WHERE p.fechaHoraFin IS NULL")
     List<Prueba> findPruebasEnCurso();
 
+    @Query("SELECT p FROM Prueba p WHERE p.id = :id AND p.fechaHoraFin IS NULL")
+    Optional<Prueba> findPruebaEnCursoById(@Param("id") int id);
 
 }
 
-//AND DATETIME(i.fechaVencimientoLicencia) > CURRENT_TIMESTAMP
