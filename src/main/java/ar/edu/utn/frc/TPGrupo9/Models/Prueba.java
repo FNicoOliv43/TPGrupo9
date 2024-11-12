@@ -49,13 +49,12 @@ public class Prueba {
         return empleado != null ? empleado.getLegajo() : null;
     }
 
-    //@Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "FECHA_HORA_INICIO")
-    private String fechaHoraInicio;
 
-    //@Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "FECHA_HORA_INICIO")
+    private LocalDateTime fechaHoraInicio;
+
     @Column(name = "FECHA_HORA_FIN")
-    private String  fechaHoraFin;
+    private LocalDateTime  fechaHoraFin;
 
     @Column(name = "COMENTARIOS")
     private String comentarios;

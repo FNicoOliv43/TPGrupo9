@@ -27,13 +27,12 @@ public class PruebaService {
         this.vehiculoRepository = vehiculoRepository;
     }
 
-
     public Iterable<Prueba> getAll(){
-            return repository.findAll();
-        }
+        return repository.findAll();
+    }
 
     public Prueba getById(int id) throws ServiceException {
-        return repository.findById(id).orElseThrow(()->
+        return repository.findById(id).orElseThrow(() ->
                 new ServiceException("Prueba no encontrada"));
     }
 
@@ -58,26 +57,19 @@ public class PruebaService {
         Prueba prueba = new Prueba();
         prueba.setInteresado(interesado);
         prueba.setVehiculo(vehiculo);
-        //prueba.setEmpleado(empleado); //Controlar como implementar empleado
 
-        //guarda la fechaHora como String
-        LocalDateTime fechaHora = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String fechaHoraString = fechaHora.format(formatter);
-        prueba.setFechaHoraInicio(fechaHoraString);
+        // Guarda la fecha y hora actual como LocalDateTime
+        prueba.setFechaHoraInicio(LocalDateTime.now());
 
         return repository.save(prueba);
     }
 
-    public Prueba finalizarPrueba(int id, String comentario) throws ServiceException{
+    public Prueba finalizarPrueba(int id, String comentario) throws ServiceException {
         Prueba prueba = repository.findPruebaEnCursoById(id)
                 .orElseThrow(() -> new ServiceException("Prueba no encontrada o ya finalizada"));
 
-        //guarda la fechaHora como String
-        LocalDateTime fechaHora = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String fechaHoraString = fechaHora.format(formatter);
-        prueba.setFechaHoraFin(fechaHoraString);
+        // Guarda la fecha y hora actual como LocalDateTime
+        prueba.setFechaHoraFin(LocalDateTime.now());
 
         prueba.setComentarios(comentario);
         return repository.save(prueba);
