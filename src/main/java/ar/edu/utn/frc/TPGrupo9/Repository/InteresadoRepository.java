@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -14,13 +15,14 @@ public interface InteresadoRepository extends JpaRepository<Interesado, Integer>
     List<Interesado> findAll();
 
     @Query("""
-        SELECT CASE WHEN COUNT(i) = 1 THEN true ELSE false END
-        FROM Interesado i
-        WHERE i.id = :clienteId
-        AND i.restringido = false
-    """)
-    boolean isInteresadoAptoParaPrueba(@Param("clienteId") int clienteId);
-    //AND DATETIME(i.fechaVencimientoLicencia) > CURRENT_TIMESTAMP
-    // esta linea falta en Query, cuando funcione el mapeo de fechas
+         SELECT CASE WHEN EXISTS (
+                 SELECT 1 FROM Interesado i
+                 WHERE i.id = :clienteId
+                 AND i.restringido = false
+                 AND i.fechaVencimientoLicencia > :fechaHoraAhora
+         ) THEN true ELSE false END
+     """)
+    Boolean isInteresadoAptoParaPrueba(@Param("clienteId") int clienteId, @Param("fechaHoraAhora") LocalDateTime fechaHoraAhora);
+
 
 }

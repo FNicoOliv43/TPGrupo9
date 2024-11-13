@@ -39,12 +39,9 @@ public class Interesado {
     @Column(name = "NRO_LICENCIA")
     private int nroLicencia;
 
-    //@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    //@CreationTimestamp
-    //@Temporal(TemporalType.TIMESTAMP)
-    //Probar opciones de arriba, pero no me funciono ninguna
+
     @Column(name = "FECHA_VENCIMIENTO_LICENCIA")
-    private String fechaVencimientoLicencia;
+    private LocalDateTime fechaVencimientoLicencia;
 
     @JsonIgnore
     @OneToMany (mappedBy = "interesado", fetch = FetchType.EAGER)

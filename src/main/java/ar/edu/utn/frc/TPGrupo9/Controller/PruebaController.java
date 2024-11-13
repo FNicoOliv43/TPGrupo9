@@ -35,7 +35,7 @@ public class PruebaController {
 
     @PostMapping
     public ResponseEntity<Prueba> createPrueba(@RequestBody PruebaRequest request) {
-        return ResponseEntity.ok(service.createPrueba(request.getInteresadoId(), request.getVehiculoId()));
+        return ResponseEntity.ok(service.createPrueba(request.getVehiculoId(), request.getInteresadoId(), request.getEmpleadoId()));
     }
 
     @PutMapping("/finalizar/{id}")
