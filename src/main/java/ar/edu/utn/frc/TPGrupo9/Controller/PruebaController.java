@@ -1,7 +1,6 @@
 package ar.edu.utn.frc.TPGrupo9.Controller;
 
 import ar.edu.utn.frc.TPGrupo9.DTO.PruebaRequest;
-import ar.edu.utn.frc.TPGrupo9.Models.Posicion;
 import ar.edu.utn.frc.TPGrupo9.Models.Prueba;
 import ar.edu.utn.frc.TPGrupo9.Services.PruebaService;
 import lombok.extern.slf4j.Slf4j;
