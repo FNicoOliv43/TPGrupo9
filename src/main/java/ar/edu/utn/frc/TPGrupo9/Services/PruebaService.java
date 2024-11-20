@@ -5,6 +5,7 @@ import ar.edu.utn.frc.TPGrupo9.Repository.*;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 
@@ -93,6 +94,12 @@ public class PruebaService {
             throw new RuntimeException("El vehículo no esta en prueba.");
         }
 
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://labsys.frc.utn.edu.ar/apps-disponibilizadas/backend/api/v1/configuracion/";
+        Agencia agencia = restTemplate.getForObject(url, Agencia.class);
+
+        System.out.println(agencia);
+
         int idPrueba = vehiculoRepository.findPruebaActivaDeVehiculo(vehiculoId);
         Prueba prueba = repository.findById(idPrueba)
                 .orElseThrow(() -> new RuntimeException("Prueba no encontrada"));
@@ -110,14 +117,29 @@ public class PruebaService {
         posicion.setLongitud(lon);
         posicionRepository.save(posicion);
 
-        //falta verificar Posicion
-        boolean enPosicionValida;
-        enPosicionValida = false;
+        if(agencia.estaEnRadio(posicion.getLatitud(), posicion.getLongitud())){
+            if (agencia.estaEnZonaRestringida(posicion.getLatitud(), posicion.getLongitud())) {
+                //Creacion incidente
+                Incidente incidente = new Incidente();
+                incidente.setPrueba(prueba);
+                incidente.setPosicion(posicion);
+                incidente.setMotivo("El vehiculo " + vehiculoId + " ha entrado a una zona restringida");
+                incidenteRepository.save(incidente);
 
-        if(enPosicionValida) {
-            return "El vehiculo " + vehiculoId + " esta en una posicion valida";
-        }
-        else{
+                //Restringir intereado
+                interesado.setRestringido(true);
+                interesadoRepository.save(interesado);
+
+                //Notificacion a empleado
+                Notificacion notificacion = new Notificacion();
+                notificacion.setTelefonos(empleado.getTelefonoContacto());
+                notificacion.setMensaje("El vehiculo de la prueba que esta a tu cargo ha entrado a una zona restringida, " +
+                        "volver inmediatamente");
+                notificacionRepository.save(notificacion);
+
+                return "El vehiculo " + vehiculoId + " esta ha entrado a una zona restringida, se ha notificado al empleado";
+            }
+        }else {
             //Creacion incidente
             Incidente incidente = new Incidente();
             incidente.setPrueba(prueba);
@@ -132,14 +154,35 @@ public class PruebaService {
             //Notificacion a empleado
             Notificacion notificacion = new Notificacion();
             notificacion.setTelefonos(empleado.getTelefonoContacto());
-            notificacion.setMensaje("El vehiculo de la prueba que esta a tu cargo ha entrado a una zona restringida, " +
+            notificacion.setMensaje("El vehiculo de la prueba que esta a tu cargo ha salido del radio permitido, " +
                     "volver inmediatamente");
             notificacionRepository.save(notificacion);
 
-            return "El vehiculo " + vehiculoId + " esta ha entrado a una zona restringida, se ha notificado al empleado";
+            return "El vehiculo " + vehiculoId + " esta ha salido del radio permitido, se ha notificado al empleado";
+
         }
+        return "El vehiculo " + vehiculoId + " esta en una posicion valida";
     }
 
 }
 
-//String texto = new StringBuilder().append(numero).toString();
+/*
+POS EN ZONA RESTRINGIDA
+{
+    "vehiculoId": 1,
+    "lat": 42.5090,
+    "lon": 1.5370
+}
+POS FUERA DE RADIO
+{
+    "vehiculoId": 1,
+    "lat": 42.6000,
+    "lon": 1.6000
+}
+POS VALIDA
+{
+    "vehiculoId":1,
+    "lat":42.488867,
+    "lon":1.514714
+}
+ */
