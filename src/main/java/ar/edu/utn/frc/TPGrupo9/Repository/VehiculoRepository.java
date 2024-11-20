@@ -20,4 +20,11 @@ public interface VehiculoRepository extends JpaRepository<Vehiculo, Integer> {
            AND p.fechaHoraFin IS NULL""")
     boolean isVehiculoDisponibleParaPrueba(@Param("vehiculoId") int vehiculoId);
 
+    @Query("""
+           SELECT p.id
+           FROM Prueba p
+           WHERE p.vehiculo.id = :vehiculoId
+           AND p.fechaHoraFin IS NULL""")
+    int findPruebaActivaDeVehiculo(@Param("vehiculoId") int vehiculoId);
+
 }

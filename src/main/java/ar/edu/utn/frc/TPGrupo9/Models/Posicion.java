@@ -1,14 +1,19 @@
 package ar.edu.utn.frc.TPGrupo9.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.ToString;
+
 import java.time.LocalDateTime;
 
 
 @Entity
 @Table (name = "Posiciones")
 @Data
+@JsonPropertyOrder({ "id", "vehiculo", "fechaHora", "latitud", "longitud"})
 public class Posicion {
 
     @Id
@@ -16,13 +21,31 @@ public class Posicion {
     @Column(name = "ID")
     private int id;
 
-    //@Temporal(TemporalType.TIMESTAMP)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_VEHICULO")
+    @ToString.Exclude
+    @JsonIgnore
+    private Vehiculo vehiculo;
+
+    @JsonProperty("vehiculo")
+    public Integer getVehiculoId() {
+        return vehiculo != null ? vehiculo.getId() : null;
+    }
+
     @Column(name = "FECHA_HORA")
-    private String fechaHora;
+    private LocalDateTime fechaHora;
 
     @Column(name = "LATITUD")
-    private int latitud;
+    private double latitud;
 
     @Column(name = "LONGITUD")
-    private int longitud;
+    private double longitud;
+
+    @Transient
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_INCIDENTE")
+    @ToString.Exclude
+    @JsonIgnore
+    private Incidente incidente;
+
 }

@@ -1,6 +1,7 @@
 package ar.edu.utn.frc.TPGrupo9.Controller;
 
 import ar.edu.utn.frc.TPGrupo9.DTO.PruebaRequest;
+import ar.edu.utn.frc.TPGrupo9.Models.Posicion;
 import ar.edu.utn.frc.TPGrupo9.Models.Prueba;
 import ar.edu.utn.frc.TPGrupo9.Services.PruebaService;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +46,17 @@ public class PruebaController {
             return ResponseEntity.ok(prueba);
         } catch (ServiceException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @PostMapping("/verificarPosicion")
+    public ResponseEntity<String> procesarPosicion(@RequestBody PruebaRequest request) {
+        try {
+            String mensaje = service.procesarPosicion(request.getVehiculoId(), request.getLat(), request.getLon()
+            );
+            return ResponseEntity.ok(mensaje);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 }

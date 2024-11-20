@@ -3,6 +3,7 @@ package ar.edu.utn.frc.TPGrupo9.Models;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -22,11 +23,22 @@ public class Empleado {
     @Column(name = "APELLIDO")
     private String apellido;
 
-
     @Column(name = "TELEFONO_CONTACTO")
-    private int telefonoContacto;
-
+    private String telefonoContacto;
 
     @OneToMany (mappedBy = "empleado", fetch = FetchType.EAGER)
     private Set<Prueba> pruebas;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Empleado empleado = (Empleado) o;
+        return legajo == empleado.legajo;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(legajo);
+    }
 }

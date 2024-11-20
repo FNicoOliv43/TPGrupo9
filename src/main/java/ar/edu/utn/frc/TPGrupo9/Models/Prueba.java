@@ -5,8 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table (name = "Pruebas")
@@ -59,5 +60,19 @@ public class Prueba {
     @Column(name = "COMENTARIOS")
     private String comentarios;
 
+    @OneToMany (mappedBy = "prueba", fetch = FetchType.EAGER)
+    private Set<Incidente> incidentes;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Prueba prueba = (Prueba) o;
+        return id == prueba.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

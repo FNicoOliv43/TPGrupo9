@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "Vehiculos")
 @Data
@@ -35,7 +37,10 @@ public class Vehiculo {
     @Column(name = "ANIO")
     private int anio;
 
-    // hashCode y equals basados solo en 'id'
+    @OneToMany(mappedBy = "vehiculo", fetch = FetchType.EAGER)
+    @ToString.Exclude
+    private Set<Posicion> posiciones;
+
     @Override
     public int hashCode() {
         return Integer.hashCode(id);

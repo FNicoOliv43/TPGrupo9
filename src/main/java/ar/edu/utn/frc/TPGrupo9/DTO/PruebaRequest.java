@@ -8,4 +8,6 @@ public class PruebaRequest {
     private int interesadoId;
     private int empleadoId;
     private String comentario;
+    private double lat;
+    private double lon;
 }

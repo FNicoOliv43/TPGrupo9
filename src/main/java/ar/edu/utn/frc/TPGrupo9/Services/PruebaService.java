@@ -1,20 +1,12 @@
 package ar.edu.utn.frc.TPGrupo9.Services;
 
-import ar.edu.utn.frc.TPGrupo9.Models.Empleado;
-import ar.edu.utn.frc.TPGrupo9.Models.Interesado;
-import ar.edu.utn.frc.TPGrupo9.Models.Prueba;
-import ar.edu.utn.frc.TPGrupo9.Models.Vehiculo;
-import ar.edu.utn.frc.TPGrupo9.Repository.EmpleadoRepository;
-import ar.edu.utn.frc.TPGrupo9.Repository.InteresadoRepository;
-import ar.edu.utn.frc.TPGrupo9.Repository.PruebaRepository;
-import ar.edu.utn.frc.TPGrupo9.Repository.VehiculoRepository;
+import ar.edu.utn.frc.TPGrupo9.Models.*;
+import ar.edu.utn.frc.TPGrupo9.Repository.*;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @Service
 public class PruebaService {
@@ -22,14 +14,22 @@ public class PruebaService {
     private final InteresadoRepository interesadoRepository;
     private final VehiculoRepository vehiculoRepository;
     private final EmpleadoRepository empleadoRepository;
+    private final PosicionRepository posicionRepository;
+    private final IncidenteRepository incidenteRepository;
+    private final NotificacionRepository notificacionRepository;
 
     @Autowired
     public PruebaService(PruebaRepository repository, InteresadoRepository interesadoRepository,
-                         VehiculoRepository vehiculoRepository, EmpleadoRepository empleadoRepository) {
+                         VehiculoRepository vehiculoRepository, EmpleadoRepository empleadoRepository,
+                         PosicionRepository posicionRepository, IncidenteRepository incidenteRepository,
+                         NotificacionRepository notificacionRepository) {
         this.repository = repository;
         this.interesadoRepository = interesadoRepository;
         this.vehiculoRepository = vehiculoRepository;
         this.empleadoRepository = empleadoRepository;
+        this.posicionRepository = posicionRepository;
+        this.incidenteRepository = incidenteRepository;
+        this.notificacionRepository = notificacionRepository;
     }
 
     public Iterable<Prueba> getAll(){
@@ -41,10 +41,12 @@ public class PruebaService {
                 new ServiceException("Prueba no encontrada"));
     }
 
+    //1.b
     public Iterable<Prueba> getPruebasEnCurso(){
         return repository.findPruebasEnCurso();
     }
 
+    //1.a
     public Prueba createPrueba(int vehiculoId, int interesadoId, int empleadoId) {
 
         if (!vehiculoRepository.isVehiculoDisponibleParaPrueba(vehiculoId)) {
@@ -74,6 +76,7 @@ public class PruebaService {
         return repository.save(prueba);
     }
 
+    //1.c
     public Prueba finalizarPrueba(int id, String comentario) throws ServiceException {
         Prueba prueba = repository.findPruebaEnCursoById(id)
                 .orElseThrow(() -> new ServiceException("Prueba no encontrada o ya finalizada"));
@@ -83,4 +86,60 @@ public class PruebaService {
 
         return repository.save(prueba);
     }
+
+    //1.d
+    public String procesarPosicion(int vehiculoId, double lat, double lon) throws ServiceException {
+        if (vehiculoRepository.isVehiculoDisponibleParaPrueba(vehiculoId)) {
+            throw new RuntimeException("El vehículo no esta en prueba.");
+        }
+
+        int idPrueba = vehiculoRepository.findPruebaActivaDeVehiculo(vehiculoId);
+        Prueba prueba = repository.findById(idPrueba)
+                .orElseThrow(() -> new RuntimeException("Prueba no encontrada"));
+        Vehiculo vehiculo = vehiculoRepository.findById(vehiculoId)
+                .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
+        Empleado empleado = empleadoRepository.findById(prueba.getEmpleadoId())
+                .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+        Interesado interesado = interesadoRepository.findById(prueba.getInteresadoId())
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+        Posicion posicion = new Posicion();
+        posicion.setVehiculo(vehiculo);
+        posicion.setFechaHora(LocalDateTime.now());
+        posicion.setLatitud(lat);
+        posicion.setLongitud(lon);
+        posicionRepository.save(posicion);
+
+        //falta verificar Posicion
+        boolean enPosicionValida;
+        enPosicionValida = false;
+
+        if(enPosicionValida) {
+            return "El vehiculo " + vehiculoId + " esta en una posicion valida";
+        }
+        else{
+            //Creacion incidente
+            Incidente incidente = new Incidente();
+            incidente.setPrueba(prueba);
+            incidente.setPosicion(posicion);
+            incidente.setMotivo("El vehiculo " + vehiculoId + " ha entrado a una zona restringida");
+            incidenteRepository.save(incidente);
+
+            //Restringir intereado
+            interesado.setRestringido(true);
+            interesadoRepository.save(interesado);
+
+            //Notificacion a empleado
+            Notificacion notificacion = new Notificacion();
+            notificacion.setTelefonos(empleado.getTelefonoContacto());
+            notificacion.setMensaje("El vehiculo de la prueba que esta a tu cargo ha entrado a una zona restringida, " +
+                    "volver inmediatamente");
+            notificacionRepository.save(notificacion);
+
+            return "El vehiculo " + vehiculoId + " esta ha entrado a una zona restringida, se ha notificado al empleado";
+        }
+    }
+
 }
+
+//String texto = new StringBuilder().append(numero).toString();
