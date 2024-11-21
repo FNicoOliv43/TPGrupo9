@@ -4,13 +4,16 @@ import ar.edu.utn.frc.TPGrupo9.Models.*;
 import ar.edu.utn.frc.TPGrupo9.Repository.*;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class PruebaService {
+    private final GeneradorReportesService generadorReportesService;
     private final PruebaRepository repository;
     private final InteresadoRepository interesadoRepository;
     private final VehiculoRepository vehiculoRepository;
@@ -18,12 +21,14 @@ public class PruebaService {
     private final PosicionRepository posicionRepository;
     private final IncidenteRepository incidenteRepository;
     private final NotificacionRepository notificacionRepository;
+    private final PersistenceExceptionTranslationPostProcessor persistenceExceptionTranslationPostProcessor;
 
     @Autowired
-    public PruebaService(PruebaRepository repository, InteresadoRepository interesadoRepository,
+    public PruebaService(GeneradorReportesService generadorReportesService, PruebaRepository repository, InteresadoRepository interesadoRepository,
                          VehiculoRepository vehiculoRepository, EmpleadoRepository empleadoRepository,
                          PosicionRepository posicionRepository, IncidenteRepository incidenteRepository,
-                         NotificacionRepository notificacionRepository) {
+                         NotificacionRepository notificacionRepository, PersistenceExceptionTranslationPostProcessor persistenceExceptionTranslationPostProcessor) {
+        this.generadorReportesService = generadorReportesService;
         this.repository = repository;
         this.interesadoRepository = interesadoRepository;
         this.vehiculoRepository = vehiculoRepository;
@@ -31,6 +36,7 @@ public class PruebaService {
         this.posicionRepository = posicionRepository;
         this.incidenteRepository = incidenteRepository;
         this.notificacionRepository = notificacionRepository;
+        this.persistenceExceptionTranslationPostProcessor = persistenceExceptionTranslationPostProcessor;
     }
 
     public Iterable<Prueba> getAll(){
@@ -164,6 +170,16 @@ public class PruebaService {
         return "El vehiculo " + vehiculoId + " esta en una posicion valida";
     }
 
+    public void generarReporteIncidentes(){
+        List<Incidente> incidenteList = incidenteRepository.findAll();
+        generadorReportesService.generarReporteIncidentes(incidenteList);
+    }
+
+    public void generarReporteIncidentesXEmpleado(int idEmpleado){
+        List<Incidente> incidenteList = incidenteRepository.findAll();
+        generadorReportesService.generarReporteIncidentesXEmpleado(incidenteList, idEmpleado);
+    }
+    
 }
 
 /*

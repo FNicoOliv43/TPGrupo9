@@ -58,4 +58,25 @@ public class PruebaController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/generarReporteIncidentes")
+    public ResponseEntity<String> generarReporteIncidentes() {
+        try {
+            service.generarReporteIncidentes();
+            return ResponseEntity.ok("Reporte generado exitosamente");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/generarReporteIncidentesXEmpleado/{idEmpleado}")
+    public ResponseEntity<String> generarReporte(@PathVariable int idEmpleado) {
+        System.out.println("ENTRO LOQUETE");
+        try {
+            service.generarReporteIncidentesXEmpleado(idEmpleado);
+            return ResponseEntity.ok("Reporte generado exitosamente");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

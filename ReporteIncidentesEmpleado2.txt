@@ -1,0 +1,1 @@
+ID Prueba: 12 | Latitud: 42.600000 | Longitud: 1.600000 | Fecha y Hora: 2024-11-21 20:10:57 | Motivo: El vehiculo 2 ha entrado a una zona restringida
