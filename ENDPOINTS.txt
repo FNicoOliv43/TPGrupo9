@@ -1,0 +1,14 @@
+GET http://localhost:8081/interesados
+
+GET http://localhost:8081/pruebas
+GET http://localhost:8081/pruebas/enCurso
+POST http://localhost:8081/pruebas/crear
+PUT http://localhost:8081/pruebas/finalizar/{id}
+POST http://localhost:8081/pruebas/verificarPosicion
+GET http://localhost:8081/pruebas/generarReporteIncidentes
+GET http://localhost:8081/pruebas/generarReporteIncidentesXEmpleado/{idEmpleado}
+GET http://localhost:8081/pruebas/generarReportePruebasXVehiculo/{idVehiculo}
+
+GET http://localhost:8081/vehiculos
+
+POST http://localhost:8081/notificacion/promocion
