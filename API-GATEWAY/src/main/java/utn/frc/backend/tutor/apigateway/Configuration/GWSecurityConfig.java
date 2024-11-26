@@ -29,6 +29,7 @@ public class GWSecurityConfig {
                         .requestMatchers("/pruebas/generarReporteIncidentes").hasRole("ADMIN")
                         .requestMatchers("/pruebas/generarReporteIncidentesXEmpleado/{idEmpleado}").hasRole("ADMIN")
                         .requestMatchers("/pruebas/generarReportePruebasXVehiculo/{idVehiculo}").hasRole("ADMIN")
+                        .requestMatchers("/pruebas/").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())));  // Autenticación basada en JWT
         return http.build();
