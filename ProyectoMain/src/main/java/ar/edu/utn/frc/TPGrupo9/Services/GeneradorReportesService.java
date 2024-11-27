@@ -35,9 +35,10 @@ public class GeneradorReportesService {
         }
     }
 
-    public void generarReporteIncidentes(List<Incidente> incidentes) {
+    public String generarReporteIncidentes(List<Incidente> incidentes) {
         String nombreArchivo = "ReportesIncidentes.txt";
         eliminarArchivoSiExiste(nombreArchivo);
+        StringBuilder mensaje = new StringBuilder("Lista de incidentes:\n");
 
         for (Incidente incidente : incidentes) {
             String fechaHoraFormateada = incidente.getPosicion().getFechaHora()
@@ -52,12 +53,15 @@ public class GeneradorReportesService {
                     incidente.getMotivo());
 
             escribirEnArchivo(nombreArchivo, incidenteString);
+            mensaje.append(incidenteString);
         }
+        return mensaje.toString();
     }
 
-    public void generarReporteIncidentesXEmpleado(List<Incidente> incidentes, int idEmpleado) {
+    public String generarReporteIncidentesXEmpleado(List<Incidente> incidentes, int idEmpleado) {
         String nombreArchivo = "ReporteIncidentesEmpleado" + idEmpleado + ".txt";
         eliminarArchivoSiExiste(nombreArchivo);
+        StringBuilder mensaje = new StringBuilder("Lista de incidentes del empleado " + idEmpleado +":\n");
 
         for (Incidente incidente : incidentes) {
             if (incidente.getPrueba().getEmpleadoId() == idEmpleado) {
@@ -73,14 +77,17 @@ public class GeneradorReportesService {
                         incidente.getMotivo());
 
                 escribirEnArchivo(nombreArchivo, incidenteString);
+                mensaje.append(incidenteString);
             }
         }
+        return mensaje.toString();
     }
 
 
-    public void generarReportePruebasXVehiculo(List<Prueba> pruebas, int idVehiculo) {
+    public String generarReportePruebasXVehiculo(List<Prueba> pruebas, int idVehiculo) {
         String nombreArchivo = "ReportePruebasVehiculo" + idVehiculo + ".txt";
         eliminarArchivoSiExiste(nombreArchivo);
+        StringBuilder mensaje = new StringBuilder("Lista de incidentes del vehiculo " + idVehiculo +":\n");
 
         for (Prueba prueba : pruebas) {
             if (prueba.getVehiculoId() == idVehiculo) {
@@ -101,8 +108,10 @@ public class GeneradorReportesService {
                         prueba.getComentarios());
 
                 escribirEnArchivo(nombreArchivo, pruebaString);
+                mensaje.append(pruebaString);
             }
         }
+        return mensaje.toString();
     }
 }
 
