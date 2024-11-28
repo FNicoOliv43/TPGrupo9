@@ -43,36 +43,8 @@ public class GeneradorReportesService {
         eliminarArchivoSiExiste(nombreArchivo);
         StringBuilder mensaje = new StringBuilder("Lista de incidentes:\n");
 
-<<<<<<< HEAD
         if (!incidentes.isEmpty()) {
             for (Incidente incidente : incidentes) {
-=======
-        for (Incidente incidente : incidentes) {
-            String fechaHoraFormateada = incidente.getPosicion().getFechaHora()
-                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-            String incidenteString = String.format(
-                    "ID Prueba: %d | Latitud: %.6f | Longitud: %.6f | Fecha y Hora: %s | Motivo: %s%n",
-                    incidente.getPruebaId(),
-                    incidente.getPosicion().getLatitud(),
-                    incidente.getPosicion().getLongitud(),
-                    fechaHoraFormateada,
-                    incidente.getMotivo());
-
-            escribirEnArchivo(nombreArchivo, incidenteString);
-            mensaje.append(incidenteString);
-        }
-        return mensaje.toString();
-    }
-
-    public String generarReporteIncidentesXEmpleado(List<Incidente> incidentes, int idEmpleado) {
-        String nombreArchivo = "ReporteIncidentesEmpleado" + idEmpleado + ".txt";
-        eliminarArchivoSiExiste(nombreArchivo);
-        StringBuilder mensaje = new StringBuilder("Lista de incidentes del empleado " + idEmpleado +":\n");
-
-        for (Incidente incidente : incidentes) {
-            if (incidente.getPrueba().getEmpleadoId() == idEmpleado) {
->>>>>>> e03ea57e9a2768c5af4497457cffb455870cff03
                 String fechaHoraFormateada = incidente.getPosicion().getFechaHora()
                         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
@@ -87,13 +59,14 @@ public class GeneradorReportesService {
                 escribirEnArchivo(nombreArchivo, incidenteString);
                 mensaje.append(incidenteString);
             }
-            return "Reporte generado correctamente";
-        }else return "Error! No se encontraron incidentes";
+        }else return "Error!No se encontraro incidentes.";
+        return mensaje.toString();
     }
 
     public String generarReporteIncidentesXEmpleado(List<Incidente> incidentes, int idEmpleado) {
         String nombreArchivo = "ReporteIncidentesEmpleado" + idEmpleado + ".txt";
         eliminarArchivoSiExiste(nombreArchivo);
+        StringBuilder mensaje = new StringBuilder("Lista de incidentes del empleado " + idEmpleado +":\n");
 
         for (Incidente incidente : incidentes) {
             boolean flag = false;
@@ -111,16 +84,13 @@ public class GeneradorReportesService {
                         incidente.getMotivo());
 
                 escribirEnArchivo(nombreArchivo, incidenteString);
+                mensaje.append(incidenteString);
             }
             if(!flag){
                 return "No se pudo generar el reporte: No se han encontrado incidentes para el empleado: " + idEmpleado;
             }
         }
-<<<<<<< HEAD
-        return "Reporte generado correctamente";
-=======
         return mensaje.toString();
->>>>>>> e03ea57e9a2768c5af4497457cffb455870cff03
     }
 
 
@@ -156,11 +126,10 @@ public class GeneradorReportesService {
                 return "No se pudo generar el reporte: No se han encontrado pruebas asociadas al vehiculo de id: " + idVehiculo;
             }
         }
-<<<<<<< HEAD
-        return "Reporte generado correctamente";
+        return mensaje.toString();
     }
 
-    public void generarReporteKilometros(List<Posicion> posiciones,
+    public String generarReporteKilometros(List<Posicion> posiciones,
                                            Agencia agencia,
                                            int idVehiculo,
                                            LocalDate fechaInicio,
@@ -174,16 +143,19 @@ public class GeneradorReportesService {
             totalKM += posicion.getKilometrosRecorridos(agencia.getLatitud(), agencia.getLongitud());
         }
 
-        String kmString = String.format("Total de kilometros recorridos por el vehiculo %d " +
-                                        "entre la fecha %s y la fecha %s: %fKM",
-                                        idVehiculo,
-                                        fechaInicio,
-                                        fechaFin,
-                                        totalKM);
-        escribirEnArchivo(nombreArchivo, kmString);
-=======
-        return mensaje.toString();
->>>>>>> e03ea57e9a2768c5af4497457cffb455870cff03
+        if (posiciones.isEmpty()){
+            return "Error!No se encontraron posiciones";
+        }
+        else {
+            String kmString = String.format("Total de kilometros recorridos por el vehiculo %d " +
+                            "entre la fecha %s y la fecha %s: %fKM",
+                    idVehiculo,
+                    fechaInicio,
+                    fechaFin,
+                    totalKM);
+            escribirEnArchivo(nombreArchivo, kmString);
+            return kmString;
+        }
     }
 }
 
