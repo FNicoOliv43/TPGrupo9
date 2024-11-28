@@ -48,5 +48,13 @@ public class Agencia {
         return zonasRestringidas.stream().anyMatch(zonaRestringida -> zonaRestringida.contiene(lat, lon));
     }
 
+    public double getLatitud(){
+        return coordenadasAgencia.getLat();
+    }
+
+    public double getLongitud(){
+        return coordenadasAgencia.getLon();
+    }
+
 
 }

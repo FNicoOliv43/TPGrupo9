@@ -1,6 +1,7 @@
 package ar.edu.utn.frc.TPGrupo9.Controller;
 
 import ar.edu.utn.frc.TPGrupo9.DTO.PruebaRequest;
+import ar.edu.utn.frc.TPGrupo9.DTO.ReporteKilometrosRequest;
 import ar.edu.utn.frc.TPGrupo9.Models.Prueba;
 import ar.edu.utn.frc.TPGrupo9.Services.PruebaService;
 import lombok.extern.slf4j.Slf4j;
@@ -60,8 +61,8 @@ public class PruebaController {
     @GetMapping("/generarReporteIncidentes")
     public ResponseEntity<String> generarReporteIncidentes() {
         try {
-            service.generarReporteIncidentes();
-            return ResponseEntity.ok("Reporte generado exitosamente");
+            String respuesta = service.generarReporteIncidentes();
+            return ResponseEntity.ok(respuesta);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -70,8 +71,8 @@ public class PruebaController {
     @GetMapping("/generarReporteIncidentesXEmpleado/{idEmpleado}")
     public ResponseEntity<String> generarReporteIncidenteXEmpleado(@PathVariable int idEmpleado) {
         try {
-            service.generarReporteIncidentesXEmpleado(idEmpleado);
-            return ResponseEntity.ok("Reporte generado exitosamente");
+            String respuesta = service.generarReporteIncidentesXEmpleado(idEmpleado);
+            return ResponseEntity.ok(respuesta);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -80,10 +81,29 @@ public class PruebaController {
     @GetMapping("/generarReportePruebasXVehiculo/{idVehiculo}")
     public ResponseEntity<String> generarReportePruebasXVehiculo(@PathVariable int idVehiculo) {
         try {
-            service.generarReportePruebasXVehiculo(idVehiculo);
-            return ResponseEntity.ok("Reporte generado exitosamente");
+            String respuesta = service.generarReportePruebasXVehiculo(idVehiculo);
+            return ResponseEntity.ok(respuesta);
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @GetMapping("/generarReporteKilometros")
+    public ResponseEntity<String> generarReporteKilometrosRecorridos(@RequestBody ReporteKilometrosRequest request){
+        try {
+            String mensaje = service.generarReporteKilometrosRecorridos(request.getIdVehiculo(),
+                                                                        request.getFechaInicio(),
+                                                                        request.getFechaFin());
+            return ResponseEntity.ok(mensaje);
+        }catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        /*
+        {
+            "idVehiculo": 1,
+            "fechaInicio": "20/11/2024",
+            "fechaFin": "25/11/2024"
+         }
+        */
     }
 }

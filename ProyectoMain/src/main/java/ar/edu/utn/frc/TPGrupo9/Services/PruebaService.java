@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpHeaders;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -198,21 +200,45 @@ public class PruebaService {
         return "El vehiculo " + vehiculoId + " esta en una posicion valida";
     }
 
-    public void generarReporteIncidentes(){
+    public String generarReporteIncidentes(){
         List<Incidente> incidenteList = incidenteRepository.findAll();
-        generadorReportesService.generarReporteIncidentes(incidenteList);
+        return generadorReportesService.generarReporteIncidentes(incidenteList);
     }
 
-    public void generarReporteIncidentesXEmpleado(int idEmpleado){
+    public String generarReporteIncidentesXEmpleado(int idEmpleado){
         List<Incidente> incidenteList = incidenteRepository.findAll();
-        generadorReportesService.generarReporteIncidentesXEmpleado(incidenteList, idEmpleado);
+        return generadorReportesService.generarReporteIncidentesXEmpleado(incidenteList, idEmpleado);
     }
 
-    public void generarReportePruebasXVehiculo(int idVehiculo){
+    public String generarReportePruebasXVehiculo(int idVehiculo){
         List<Prueba> pruebas = pruebaRepository.findAll();
-        generadorReportesService.generarReportePruebasXVehiculo(pruebas, idVehiculo);
+        return generadorReportesService.generarReportePruebasXVehiculo(pruebas, idVehiculo);
     }
-    
+
+    public String generarReporteKilometrosRecorridos(int idVehiculo, LocalDate fechaInicio, LocalDate fechaFin) {
+
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://labsys.frc.utn.edu.ar/apps-disponibilizadas/backend/api/v1/configuracion/";
+        Agencia agencia = restTemplate.getForObject(url, Agencia.class);
+
+        List<Posicion> posiciones = new ArrayList<>();
+
+        for (Posicion posicion : posicionRepository.findAll()) {
+            if (posicion.getVehiculoId() == idVehiculo &&
+                    !posicion.getFechaHora().toLocalDate().isBefore(fechaInicio) &&
+                    !posicion.getFechaHora().toLocalDate().isAfter(fechaFin)) {
+                posiciones.add(posicion);
+            }
+        }
+
+        if(posiciones.isEmpty()){
+            return "No se pudo crear el reporte. No se han encontrado posiciones.";
+        }else {
+            generadorReportesService.generarReporteKilometros(posiciones, agencia, idVehiculo, fechaInicio, fechaFin);
+            return "Reporte generado con exito.";
+        }
+    }
+
 }
 
 /*

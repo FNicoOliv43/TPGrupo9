@@ -48,4 +48,22 @@ public class Posicion {
     @JsonIgnore
     private Incidente incidente;
 
+    public double getKilometrosRecorridos(double latAgencia, double lonAgencia){
+        double R = 6371.0;
+
+        latAgencia = Math.toRadians(latAgencia);
+        lonAgencia = Math.toRadians(lonAgencia);
+        double latRad = Math.toRadians(this.latitud);
+        double lonRad = Math.toRadians(this.longitud);
+
+        double dlat = latAgencia - latRad;
+        double dlon = lonAgencia - lonRad;
+
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(latAgencia) * Math.cos(latRad) * Math.pow(Math.sin(dlon / 2), 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c;
+    }
+
 }
