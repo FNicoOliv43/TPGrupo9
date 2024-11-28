@@ -1,0 +1,12 @@
+Grant Type: Password Credentials
+Access Token URL: https://labsys.frc.utn.edu.ar/aim/realms/backend-tps/protocol/openid-connect/token
+ClientID: cliente-tpi
+Client Secret: ZmiMMce6zh4xKHde1FFKbfkiThDyYpyn
+
+Usuario		Password		Rol
+g001-A	 	g001-A-backend		Admin
+g001-B	 	g001-B-backend		Empleado
+g001-C	 	g001-C-backend		Vehículo
+g001-D	 	g001-D-backend		Admin
+g001-E	 	g001-E-backend		Empleado
+g001-F	 	g001-F-backend		Vehículo

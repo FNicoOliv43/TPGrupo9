@@ -1,0 +1,22 @@
+POST http://localhost:8081/pruebas/verificarPosicion
+
+POSICION VALIDA
+{
+	"vehiculoId":1,
+	"lat":42.488867,
+	"lon":1.514714
+}
+
+POSICION FUERA DE RADIO
+{
+	"vehiculoId": 1,
+	"lat": 42.6000,
+	"lon": 1.6000
+}
+
+POSICION EN ZONA RESTRINGIDA
+{
+	"vehiculoId": 1,
+	"lat": 42.5090,
+	"lon": 1.5370
+}

@@ -1,0 +1,6 @@
+PUT http://localhost:8081/pruebas/finalizar/{id}
+
+http://localhost:8081/pruebas/finalizar/{12}
+{
+	"comentario": "PRUEBA FINALIZADA"
+}

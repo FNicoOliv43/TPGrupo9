@@ -1,0 +1,6 @@
+POST http://localhost:8081/notificacion/promocion
+
+{
+	"promocionId": 1,
+	"telefonos" "3491234353, 3472768798": 
+}

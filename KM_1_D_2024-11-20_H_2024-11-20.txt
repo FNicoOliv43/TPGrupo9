@@ -1,0 +1,1 @@
+Total de kilometros recorridos por el vehiculo 1 entre la fecha 2024-11-20 y la fecha 2024-11-20: 5.592052KM

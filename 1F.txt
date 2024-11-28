@@ -1,0 +1,15 @@
+GET http://localhost:8081/pruebas/generarReporteIncidentes
+GET http://localhost:8081/pruebas/generarReporteIncidentesXEmpleado/{idEmpleado}
+GET http://localhost:8081/pruebas/generarReportePruebasXVehiculo/{idVehiculo}
+GET http://localhost:8081/pruebas/generarReporteKilometros
+
+
+http://localhost:8081/pruebas/generarReporteIncidentesXEmpleado/1
+http://localhost:8081/pruebas/generarReportePruebasXVehiculo/2
+
+http://localhost:8081/pruebas/generarReporteKilometros
+{
+    "idVehiculo": 1,
+    "fechaInicio": "20/11/2024",
+    "fechaFin": "25/11/2024"
+}

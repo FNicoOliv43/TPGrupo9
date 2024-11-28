@@ -1,0 +1,22 @@
+POST http://localhost:8081/pruebas/crear
+
+SE CREA LA PRUEBA CORRECTAMENTE
+{
+	"vehiculoId": 4,
+	"interesadoId": 3,
+   	"empleadoId": 3
+}
+
+EL INTERESADO NO CUMPLE LOS REQUISITOS
+{
+	"vehiculoId": 4,
+	"interesadoId": 5,
+   	"empleadoId": 3
+}
+
+EL VEHICULO SE ENCUENTRA EN OTRA PRUEBA VIGENTE
+{
+	"vehiculoId": 2,
+	"interesadoId": 3,
+   	"empleadoId": 3
+}
