@@ -131,21 +131,18 @@ public class PruebaService {
 
         if(agencia.estaEnRadio(posicion.getLatitud(), posicion.getLongitud())){
             if (agencia.estaEnZonaRestringida(posicion.getLatitud(), posicion.getLongitud())) {
-                //Creacion incidente
                 Incidente incidente = new Incidente();
                 incidente.setPrueba(prueba);
                 incidente.setPosicion(posicion);
                 incidente.setMotivo("El vehiculo " + vehiculoId + " ha entrado a una zona restringida");
                 incidenteRepository.save(incidente);
 
-                //Restringir intereado
                 interesado.setRestringido(true);
                 interesadoRepository.save(interesado);
 
-                //Notificacion a empleado
                 String mensaje ="El vehiculo de la prueba que esta a tu cargo ha entrado en zona restringida, volver inmediatamente";
 
-                String urlNotificacion = "http://localhost:8080/notificacion/incidente"; // URL del microservicio de notificaciones
+                String urlNotificacion = "http://localhost:8080/notificacion/incidente";
 
                 Map<String, String> notificacion = new HashMap<>();
                 notificacion.put("telefonos", empleado.getTelefonoContacto());
@@ -164,18 +161,15 @@ public class PruebaService {
                 return "El vehiculo " + vehiculoId + " esta ha entrado a una zona restringida, se ha notificado al empleado";
             }
         }else {
-            //Creacion incidente
             Incidente incidente = new Incidente();
             incidente.setPrueba(prueba);
             incidente.setPosicion(posicion);
             incidente.setMotivo("El vehiculo " + vehiculoId + " ha entrado a una zona restringida");
             incidenteRepository.save(incidente);
 
-            //Restringir intereado
             interesado.setRestringido(true);
             interesadoRepository.save(interesado);
 
-            //Notificacion a empleado
             String mensaje ="El vehiculo de la prueba que esta a tu cargo ha salido del radio permitido, volver inmediatamente";
 
             String urlNotificacion = "http://localhost:8080/notificacion/incidente"; // URL del microservicio de notificaciones

@@ -61,8 +61,13 @@ public class PruebaController {
     @GetMapping("/generarReporteIncidentes")
     public ResponseEntity<String> generarReporteIncidentes() {
         try {
+<<<<<<< HEAD
             String respuesta = service.generarReporteIncidentes();
             return ResponseEntity.ok(respuesta);
+=======
+            String mensaje = service.generarReporteIncidentes();
+            return ResponseEntity.ok(mensaje);
+>>>>>>> e03ea57e9a2768c5af4497457cffb455870cff03
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -71,8 +76,13 @@ public class PruebaController {
     @GetMapping("/generarReporteIncidentesXEmpleado/{idEmpleado}")
     public ResponseEntity<String> generarReporteIncidenteXEmpleado(@PathVariable int idEmpleado) {
         try {
+<<<<<<< HEAD
             String respuesta = service.generarReporteIncidentesXEmpleado(idEmpleado);
             return ResponseEntity.ok(respuesta);
+=======
+            String mensaje = service.generarReporteIncidentesXEmpleado(idEmpleado);
+            return ResponseEntity.ok(mensaje);
+>>>>>>> e03ea57e9a2768c5af4497457cffb455870cff03
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -81,8 +91,13 @@ public class PruebaController {
     @GetMapping("/generarReportePruebasXVehiculo/{idVehiculo}")
     public ResponseEntity<String> generarReportePruebasXVehiculo(@PathVariable int idVehiculo) {
         try {
+<<<<<<< HEAD
             String respuesta = service.generarReportePruebasXVehiculo(idVehiculo);
             return ResponseEntity.ok(respuesta);
+=======
+            String mensaje = service.generarReportePruebasXVehiculo(idVehiculo);
+            return ResponseEntity.ok(mensaje);
+>>>>>>> e03ea57e9a2768c5af4497457cffb455870cff03
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
