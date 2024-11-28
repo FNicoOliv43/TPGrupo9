@@ -143,10 +143,6 @@ public class GeneradorReportesService {
             totalKM += posicion.getKilometrosRecorridos(agencia.getLatitud(), agencia.getLongitud());
         }
 
-        if (posiciones.isEmpty()){
-            return "Error!No se encontraron posiciones";
-        }
-        else {
             String kmString = String.format("Total de kilometros recorridos por el vehiculo %d " +
                             "entre la fecha %s y la fecha %s: %fKM",
                     idVehiculo,
@@ -155,7 +151,6 @@ public class GeneradorReportesService {
                     totalKM);
             escribirEnArchivo(nombreArchivo, kmString);
             return kmString;
-        }
     }
 }
 

@@ -218,6 +218,7 @@ public class PruebaService {
         List<Posicion> posiciones = new ArrayList<>();
 
         for (Posicion posicion : posicionRepository.findAll()) {
+            System.out.println(posicion);
             if (posicion.getVehiculoId() == idVehiculo &&
                     !posicion.getFechaHora().toLocalDate().isBefore(fechaInicio) &&
                     !posicion.getFechaHora().toLocalDate().isAfter(fechaFin)) {
@@ -228,8 +229,7 @@ public class PruebaService {
         if(posiciones.isEmpty()){
             return "No se pudo crear el reporte. No se han encontrado posiciones.";
         }else {
-            generadorReportesService.generarReporteKilometros(posiciones, agencia, idVehiculo, fechaInicio, fechaFin);
-            return "Reporte generado con exito.";
+            return generadorReportesService.generarReporteKilometros(posiciones, agencia, idVehiculo, fechaInicio, fechaFin);
         }
     }
 
